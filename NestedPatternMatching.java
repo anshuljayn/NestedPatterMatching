@@ -27,7 +27,7 @@ public class NestedPatternMatching {
         this.sample.put("ert 160", "done");
         this.sample.put("wert", "wert");
         this.sample.put("qwert", "qwert");
-        
+        this.sample.put("response.eventTaskResponse.findAll { eventTaskResponse-> eventTaskResponse.id == 160}.event", "234567890876543223456");
         this.sample.put("1","1");
         this.sample.put("1 1","11");
 
@@ -40,21 +40,22 @@ public class NestedPatternMatching {
 
     @Test
     public void test() {
-        
-        patternSeachAndEvualte("<$evenet$> <$id$>"); //Test 160
-        patternSeachAndEvualte("<$evenet$> <$this is another with <$var2$>$> <$var3$>"); //test automation new demo
-        patternSeachAndEvualte("<$evenet$> <$this is another <$var1$> with <$var2$>$> <$var3$>"); //test automation demo
-        patternSeachAndEvualte("<$e <$r <$t$>$>$> <$id$>"); //ert 160
-        patternSeachAndEvualte("<$<$e <$r <$t$>$>$> <$id$>$>"); //done
-        patternSeachAndEvualte("<$1 <$1 <$1 <$1 <$1$>$>$>$>$> -- <$<$e <$r <$t$>$>$> <$id$>$> 123456 <$evenet$> <$id$>"); //Super done 123456 Test 160
+        patternSearchAndEvaluate("<$response.eventTaskResponse.findAll { eventTaskResponse-> eventTaskResponse.id == <$id$>}.event$>"); //234567890876543223456
+        patternSearchAndEvaluate("<$evenet$> <$id$>"); //Test 160
+        patternSearchAndEvaluate("<$evenet$> <$this is another with <$var2$>$> <$var3$>"); //test automation new demo
+        patternSearchAndEvaluate("<$evenet$> <$this is another <$var1$> with <$var2$>$> <$var3$>"); //test automation demo
+        patternSearchAndEvaluate("<$e <$r <$t$>$>$> <$id$>"); //ert 160
+        patternSearchAndEvaluate("<$<$e <$r <$t$>$>$> <$id$>$>"); //done
+        patternSearchAndEvaluate("<$1 <$1 <$1 <$1 <$1$>$>$>$>$> -- <$<$e <$r <$t$>$>$> <$id$>$> 123456 <$evenet$> <$id$>"); //Super done 123456 Test 160
 
     }
 
-    private void patternSeachAndEvualte(String str) {
+    private void patternSearchAndEvaluate(String str) {
         String s = "<$";
         String e = "$>";
 
         int i = str.indexOf(s);
+        
         int j = 1;
         Map<String, Integer> map = new HashMap<>();
         while (i >= 0) {
